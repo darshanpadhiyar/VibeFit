@@ -6,6 +6,22 @@
 import { GoogleGenAI, GenerateContentResponse, Modality } from "@google/genai";
 import { GarmentCategory, TopStylingOption } from "../types";
 
+// Lazy initialization for the Google AI client
+let ai: GoogleGenAI | null = null;
+const getGoogleAI = () => {
+    // FIX: Use process.env.API_KEY as per the coding guidelines.
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+        throw new Error("API_KEY is not set. Please add it to your environment variables.");
+    }
+    if (!ai) {
+        ai = new GoogleGenAI({ apiKey });
+    }
+    return ai;
+};
+
+const model = 'gemini-2.5-flash-image';
+
 const fileToPart = async (file: File) => {
     const dataUrl = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
@@ -56,9 +72,6 @@ const handleApiResponse = (response: GenerateContentResponse): string => {
     throw new Error(errorMessage);
 };
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
-const model = 'gemini-2.5-flash-image';
-
 export const generateModelImage = async (userImage: File): Promise<string> => {
     const userImagePart = await fileToPart(userImage);
     const prompt = `You are an expert fashion photographer AI. Your task is to transform the person in the user-provided image into a high-quality, photorealistic fashion model photo.
@@ -73,7 +86,7 @@ export const generateModelImage = async (userImage: File): Promise<string> => {
 5.  **NEUTRAL EXPRESSION:** The person should have a neutral, professional model expression.
 6.  **PHOTOREALISTIC OUTPUT:** The final image must be photorealistic.
 7.  **OUTPUT FORMAT:** Return ONLY the final image file. No text, no commentary.`;
-    const response = await ai.models.generateContent({
+    const response = await getGoogleAI().models.generateContent({
         model,
         contents: { parts: [userImagePart, { text: prompt }] },
         config: {
@@ -115,7 +128,7 @@ ${garmentDescriptions}
 7.  **REALISTIC FIT:** Fit the new garments onto the person realistically. They should adapt to their pose with natural folds, shadows, and lighting consistent with the original scene.
 8.  **OUTPUT FORMAT:** Return ONLY the final, edited image. Do not include any text.`;
     
-    const response = await ai.models.generateContent({
+    const response = await getGoogleAI().models.generateContent({
         model,
         contents: { parts: [modelImagePart, ...garmentImageParts, { text: prompt }] },
         config: {
@@ -137,7 +150,7 @@ export const generateVirtualTryOnFromLook = async (modelImageUrl: string, lookIm
 4.  **REALISTIC FIT:** The transferred garment must be realistically fitted to the person in the 'model image', adapting to their pose with natural folds, shadows, and lighting.
 5.  **OUTPUT FORMAT:** Return ONLY the final, edited image. Do not include any text.`;
 
-    const response = await ai.models.generateContent({
+    const response = await getGoogleAI().models.generateContent({
         model,
         contents: { parts: [modelImagePart, lookImagePart, { text: prompt }] },
         config: {
@@ -161,7 +174,7 @@ export const generatePoseVariation = async (tryOnImageUrl: string, poseInstructi
 4.  **FULL BODY SHOT (HIGHEST PRIORITY):** The final image MUST be a full-body shot, showing the person from head to toe. Do NOT crop the image.
 5.  **ONLY CHANGE THE POSE:** The ONLY thing you are allowed to change is the person's body pose to match the new instruction.
 6.  **OUTPUT FORMAT:** Return ONLY the final, edited image. Do not include any text.`;
-    const response = await ai.models.generateContent({
+    const response = await getGoogleAI().models.generateContent({
         model,
         contents: { parts: [tryOnImagePart, { text: prompt }] },
         config: {
@@ -181,7 +194,7 @@ export const remixGarment = async (baseImageUrl: string, remixPrompt: string, ga
 3.  **APPLY THE EDIT:** Modify ONLY the color, pattern, or style of the '${garmentName}' as described in the text prompt: "${remixPrompt}". Make the edit look photorealistic and seamless.
 4.  **OUTPUT FORMAT:** Return ONLY the edited image.`;
 
-    const response = await ai.models.generateContent({
+    const response = await getGoogleAI().models.generateContent({
         model,
         contents: { parts: [baseImagePart, { text: prompt }] },
         config: {
