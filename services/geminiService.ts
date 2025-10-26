@@ -10,7 +10,8 @@ import { GarmentCategory, TopStylingOption } from "../types";
 let ai: GoogleGenAI | null = null;
 const getGoogleAI = () => {
     // FIX: Use process.env.API_KEY as per the coding guidelines.
-    const apiKey = process.env.VITE_GOOGLE_API_KEY;
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
     if (!apiKey) {
         throw new Error("API_KEY is not set. Please add it to your environment variables.");
     }
