@@ -95,7 +95,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onModelFinalized }) => {
                 <div className="lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
                     <div className="max-w-lg">
                     <h1 className="text-5xl md:text-7xl font-display font-bold text-dark-text-primary leading-tight tracking-tight">
-                        Style Unleashed.
+                        Wear Your Imagination.
                     </h1>
                     <p className="mt-4 text-lg text-dark-text-secondary">
                         Upload a photo. Become the model. Instantly try on any look with your virtual twin.

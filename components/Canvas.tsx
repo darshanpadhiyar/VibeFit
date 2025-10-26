@@ -34,7 +34,7 @@ const Canvas: React.FC<CanvasProps> = ({ displayImageUrl, onStartOver, isLoading
             key={displayImageUrl}
             src={displayImageUrl}
             alt="Virtual try-on model"
-            className="max-w-[70%] max-h-[70%] object-contain transition-opacity duration-500 animate-fade-in rounded-lg"
+            className="max-w-[80%] max-h-[80%] object-contain transition-opacity duration-500 animate-fade-in rounded-lg"
           />
         ) : (
             <div className="w-[400px] h-[600px] bg-light-panel dark:bg-dark-panel border border-light-border dark:border-dark-border rounded-lg flex flex-col items-center justify-center">

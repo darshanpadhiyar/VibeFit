@@ -373,7 +373,7 @@ const App: React.FC = () => {
             transition={{ duration: 0.5, ease: 'easeInOut' }}
           >
             <main className="flex-grow relative flex flex-col xl:flex-row p-2 sm:p-4 xl:gap-4 pb-24 xl:pb-4">
-              <div className="w-full h-full flex-grow flex items-center justify-center relative rounded-lg xl:p-12 2xl:p-24">
+              <div className="w-full h-full flex-grow flex items-center justify-center relative rounded-lg xl:p-10 2xl:p-20">
                 <Canvas 
                   displayImageUrl={finalDisplayUrl}
                   onStartOver={handleStartOver}
