@@ -1,0 +1,66 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap');
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animation for gentle fade-in of components */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Animation for the main canvas image to zoom into focus */
+@keyframes zoom-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-zoom-in {
+  animation: zoom-in 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Custom scrollbar for a more integrated look */
+:root {
+  --scrollbar-track-light: rgba(0, 0, 0, 0.05);
+  --scrollbar-thumb-light: hsl(190, 100%, 60%);
+  --scrollbar-thumb-hover-light: hsl(190, 100%, 50%);
+
+  --scrollbar-track-dark: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb-dark: hsl(190, 100%, 50%);
+  --scrollbar-thumb-hover-dark: hsl(190, 100%, 60%);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Light theme scrollbar */
+html:not(.dark) ::-webkit-scrollbar-track { background: var(--scrollbar-track-light); }
+html:not(.dark) ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-light); border-radius: 4px; }
+html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover-light); }
+
+/* Dark theme scrollbar */
+html.dark ::-webkit-scrollbar-track { background: var(--scrollbar-track-dark); }
+html.dark ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-dark); border-radius: 4px; }
+html.dark ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover-dark); }
